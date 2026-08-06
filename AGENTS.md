@@ -40,7 +40,8 @@ would ship to every user.
 commands/produce.md              /doc-forge:produce — the orchestrator prompt
 agents/df-*.md                   subagent definitions (frontmatter + role prompt)
 skills/<name>/SKILL.md           procedures + output formats the agents load
-styles/{spec,book,adr,guide}.md  per-deliverable-type writing rules
+styles/*.md                      per-deliverable-type writing rules
+                                 (spec, book, adr, guide, report)
 ```
 
 Roughly: **commands** decide *when* work happens, **agents** decide *who* does

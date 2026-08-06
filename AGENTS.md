@@ -37,6 +37,7 @@ would ship to every user.
 ```
 .claude-plugin/plugin.json       plugin manifest (name, version, author)
 .claude-plugin/marketplace.json  marketplace "voidlab" pointing at ./
+commands/init.md                 /doc-forge:init — scaffolds a workspace
 commands/produce.md              /doc-forge:produce — the orchestrator prompt
 agents/df-*.md                   subagent definitions (frontmatter + role prompt)
 skills/<name>/SKILL.md           procedures + output formats the agents load
@@ -56,6 +57,13 @@ restates a skill, will drift.
 INTAKE → RESEARCH → PLAN → DRAFT → REVIEW/REVISE ⟲ → COLD_READ
        → PORTFOLIO_REVIEW (if >1 deliverable) → ASSEMBLE → DONE
 ```
+
+Before INTAKE there is a scaffold step, not a phase: `/doc-forge:init` loads
+`init-workspace` to create the directories and seed `plan/status.md`.
+`/doc-forge:produce` loads the same skill when it finds no workspace, so the
+init command is a convenience, never a prerequisite. **The workspace layout
+and the `status.md` skeleton are defined only in `init-workspace`** — if you
+need to change either, change it there; both commands follow.
 
 | Phase | Agent(s) | Skill | Reads | Writes |
 |---|---|---|---|---|
@@ -84,7 +92,10 @@ file-in / file-out.
    return content is a regression.
 3. **Everything durable is a file.** `plan/status.md` must always be enough for
    a brand-new session to resume. If you add a phase or an artifact, update
-   what `produce.md` records in `status.md` too.
+   both what `produce.md` records in `status.md` and the skeleton
+   `init-workspace` seeds. Init is also idempotent by contract: it stops on an
+   existing `status.md` rather than overwriting one, because re-init must
+   never be a way to lose a half-finished run.
 4. **Gates are hard.** Contracts (INTAKE) and outline+arc (PLAN) require
    explicit user approval. Do not add "proceed if the user seems happy" paths.
 5. **Writers cannot invent.** Missing facts become `[GAP: ...]` markers, which
@@ -143,9 +154,9 @@ There is no test suite. What passes for verification:
 
 1. JSON manifests still parse, and `version` in `.claude-plugin/plugin.json` is
    bumped if behaviour changed.
-2. Every `name:` matches its filename; every skill referenced by an agent
-   exists under `skills/`; every agent named in `commands/produce.md` exists
-   under `agents/`.
+2. Every `name:` matches its filename; every skill referenced by an agent or a
+   command exists under `skills/`; every agent named in `commands/produce.md`
+   exists under `agents/`.
 3. Every style file referenced by `intake`'s contract format exists.
 4. End-to-end: install the plugin locally, run `/doc-forge:produce` in a
    scratch workspace with a couple of source files, and confirm the phase you

@@ -7,19 +7,36 @@ only the machinery.
 
 ## Install (global / user scope)
 
-    /plugin marketplace add <your-github-username>/doc-forge
+    /plugin marketplace add MohamedElamineBentarzi/doc-forge
     /plugin install doc-forge@voidlab        # choose "User" scope
     /reload-plugins
 
 ## Use
 
-In any workspace:
+**1. Initialize a workspace.** Go to the project you want documented — an
+empty directory is fine — and run:
+
+    /doc-forge:init
+
+This creates the layout below and seeds `plan/status.md` at phase `INTAKE`.
+It never overwrites an existing workspace, so re-running it is safe.
+
+**2. Add your material.** Drop papers, notes, and prior docs into `sources/`.
+You do not have to copy a codebase: contracts can point at any path, but run
+`/add-dir <path>` first for anything outside the workspace, or the research
+agents cannot read it.
+
+**3. Produce.** Run:
 
     /doc-forge:produce
 
-Phase 0 interviews you and writes contracts to `plan/contracts/`.
-Everything downstream reads/writes files only. Resume anytime with
-`/doc-forge:produce` — it picks up from `plan/status.md`.
+Phase 0 interviews you and writes one contract per deliverable to
+`plan/contracts/`; it stops there until you reply `approved`. Everything
+downstream is file-in / file-out. Resume anytime with the same command — it
+picks up from `plan/status.md`, so a fresh session loses nothing.
+
+Skipping step 1 is fine: `/doc-forge:produce` initializes the workspace
+itself if it finds none, then goes straight into the interview.
 
 ## Update
 
@@ -29,7 +46,7 @@ push, then in Claude Code:
     /plugin marketplace update voidlab
     /reload-plugins
 
-## Workspace layout (created by the plugin)
+## Workspace layout (created by `/doc-forge:init`)
 
     plan/        contracts, portfolio.md, status.md, covered.md, style pointers
     sources/     your raw material (you put things here)

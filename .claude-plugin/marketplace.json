@@ -1,0 +1,11 @@
+{
+  "name": "voidlab",
+  "owner": { "name": "Mohamed Elamine Bentarzi" },
+  "plugins": [
+    {
+      "name": "doc-forge",
+      "source": "./",
+      "description": "Multi-agent documentation factory for large projects"
+    }
+  ]
+}

@@ -41,8 +41,9 @@ commands/init.md                 /doc-forge:init — scaffolds a workspace
 commands/produce.md              /doc-forge:produce — the orchestrator prompt
 agents/df-*.md                   subagent definitions (frontmatter + role prompt)
 skills/<name>/SKILL.md           procedures + output formats the agents load
-styles/*.md                      per-deliverable-type writing rules
-                                 (spec, book, adr, guide, report)
+styles/*.md                      per-deliverable-type writing rules; the
+                                 filename IS the deliverable_type value
+                                 (spec, book, adr-set, guide, report)
 ```
 
 Roughly: **commands** decide *when* work happens, **agents** decide *who* does
@@ -59,11 +60,12 @@ INTAKE → RESEARCH → PLAN → DRAFT → REVIEW/REVISE ⟲ → COLD_READ
 ```
 
 Before INTAKE there is a scaffold step, not a phase: `/doc-forge:init` loads
-`init-workspace` to create the directories and seed `plan/status.md`.
-`/doc-forge:produce` loads the same skill when it finds no workspace, so the
-init command is a convenience, never a prerequisite. **The workspace layout
-and the `status.md` skeleton are defined only in `init-workspace`** — if you
-need to change either, change it there; both commands follow.
+`init-workspace` to create the directories and seed `plan/status.md`. It is a
+**prerequisite** — `/doc-forge:produce` finding no `status.md` stops and says
+to run init, rather than scaffolding a second way. One capability, one owner:
+if you ever feel tempted to let produce "just create it if missing", that is
+the thing this split exists to prevent. The layout and the `status.md`
+skeleton are defined only in `init-workspace`; change them there.
 
 | Phase | Agent(s) | Skill | Reads | Writes |
 |---|---|---|---|---|
@@ -136,8 +138,10 @@ file-in / file-out.
 ## Adding things
 
 **A new style** (`styles/<type>.md`): one screen, voice + structure + hard
-bans, phrased so a reviewer can check compliance. Add the type to the
-`deliverable_type` and `style` lines in `skills/intake/SKILL.md`.
+bans, phrased so a reviewer can check compliance. The filename must equal the
+`deliverable_type` value exactly — contracts resolve `styles/<type>.md`
+mechanically — and the type must be added to the `deliverable_type` line in
+`skills/intake/SKILL.md`.
 
 **A new agent**: add `agents/df-<role>.md` with frontmatter, a role prompt
 that loads a skill, and the return contract (`return only path + counts`).

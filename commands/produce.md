@@ -12,12 +12,11 @@ full content.
 
 1. If `plan/status.md` exists, read it and resume from the recorded phase.
    Announce to the user where you are resuming from.
-2. Otherwise the workspace was never initialized: load the `init-workspace`
-   skill and follow it to create the layout and seed `plan/status.md`, then
-   continue into INTAKE in the same turn. (`/doc-forge:init` runs that same
-   skill on its own, for users who want the workspace before the interview.)
-   The layout is defined ONLY in that skill — never inline the directory list
-   here.
+2. Otherwise the workspace was never initialized. STOP and tell the user to
+   run `/doc-forge:init` here first. Do not create the layout yourself, do
+   not load `init-workspace`, do not start the interview against a workspace
+   that does not exist. Scaffolding belongs to exactly one command, and it is
+   not this one.
 3. After every phase transition, update `plan/status.md`:
    current phase, per-deliverable progress table, next action, blockers.
    This file must be sufficient for a brand-new session to resume perfectly.

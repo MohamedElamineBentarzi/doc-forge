@@ -35,8 +35,8 @@ Phase 0 interviews you and writes one contract per deliverable to
 downstream is file-in / file-out. Resume anytime with the same command — it
 picks up from `plan/status.md`, so a fresh session loses nothing.
 
-Skipping step 1 is fine: `/doc-forge:produce` initializes the workspace
-itself if it finds none, then goes straight into the interview.
+Step 1 is required. `/doc-forge:produce` will not scaffold a workspace — run
+in an uninitialized directory it stops and points you at `/doc-forge:init`.
 
 ## Update
 

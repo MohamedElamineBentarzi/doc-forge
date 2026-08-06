@@ -1,6 +1,7 @@
 {
   "name": "doc-forge",
-  "version": "0.2.0",
+  "version": "0.3.0",
+  "license": "Apache-2.0",
   "description": "Multi-agent documentation factory: interactive intake -> contracts -> research -> plan -> draft -> review -> revise -> cold read. Produces specs, books, ADRs, guides from large projects with fresh-context agents.",
   "author": { "name": "Mohamed Elamine Bentarzi" }
 }
